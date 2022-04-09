@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.my-layout {
+  height: 100vh;
+  overflow: hidden;
+}
+.my-row-center {
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.my-card-center {
+  margin-top: -5% !important;
+  box-shadow: 0px 0px 15px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 5px !important;
+}
+.my-text-center {
+  text-align: center;
+}
+.my-bubble {
+  position: relative;
+}
+
+.my-bubble:before,
+.my-bubble:after {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.my-thought:before,
+.my-thought:after {
+  left: -5px;
+  bottom: -10px;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border: 1.5px solid rgb(229, 231, 235);
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  z-index: 1;
+}
+.me.my-thought:before,
+.me.my-thought:after {
+  left: unset;
+  right: -5px;
+  background-color: inherit;
+}
+
+.my-thought:after {
+  width: 10px;
+  height: 10px;
+  left: -10px;
+  bottom: -10px;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+}
+.me.my-thought:after {
+  left: unset;
+  right: -8px;
+}
+.avatar-uploader > .ant-upload {
+  width: 128px;
+  height: 128px;
+}
