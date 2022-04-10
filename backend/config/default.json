@@ -28,7 +28,8 @@
       "passwordField": "password"
     }
   },
-  "mongodb": "mongodb://localhost:27017/all-in-one",
+  // "mongodb": "mongodb://localhost:27017/all-in-one",
+  "mongodb": "mongodb+srv://asenta:qM9ZAnX4vuHZO3ZT@uat.pkeoi.mongodb.net/uat?retryWrites=true&w=majority",
   "base": "api/v1",
   "socketPort": 3032
 }

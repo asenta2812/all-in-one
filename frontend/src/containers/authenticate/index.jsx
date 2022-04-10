@@ -8,7 +8,7 @@ function AuthenticateContainer(props) {
   const { onFinish, onFinishFailed, title } = props
   return (
     <Row className="my-row-center">
-      <Col xl={8} lg={14} sm={14} xs={22}>
+      <Col xl={6} lg={14} sm={14} xs={22}>
         <Card className="my-card-center my-text-center">
           <Typography.Title level={2}>{title}</Typography.Title>
           <Form

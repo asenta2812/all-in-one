@@ -5,15 +5,19 @@ import React, { useContext, useEffect, useState } from 'react'
 import ChatContext from '@contexts/chat'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentUser } from '@redux/auth'
-import { selectRoomAction } from '@redux/chat'
+import { selectRoomAction, selectCurrentRoom } from '@redux/chat'
 function RecentMessages() {
   const [recentMessages, setRecentMessages] = useState()
-  const { newMessage } = useContext(ChatContext)
+  const { newMessage, handleClearNewMessage } = useContext(ChatContext)
   const currentUserId = useSelector(selectCurrentUser)._id
+  const currentRoomId = useSelector(selectCurrentRoom)?._id
   const dispatch = useDispatch()
 
   const handleClickItem = (roomId) => {
-    dispatch(selectRoomAction({ roomId }))
+    if (roomId === newMessage?.at_room) {
+      handleClearNewMessage()
+    }
+    if (roomId !== currentRoomId) dispatch(selectRoomAction({ roomId }))
   }
   const getRecentMessages = async () => {
     const messages = await feathersClient.service('rooms').find({

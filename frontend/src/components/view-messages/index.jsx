@@ -1,6 +1,6 @@
+import feathersClient from '@client'
 import Message from '@components/message'
 import ChatContext from '@contexts/chat'
-import feathersClient from '@client'
 import { selectCurrentUser } from '@redux/auth'
 import { Empty } from 'antd'
 import PropTypes from 'prop-types'
@@ -12,15 +12,29 @@ import React, {
   useState,
 } from 'react'
 import { useSelector } from 'react-redux'
-
+import { getIsNewMessage } from '@ultils'
 function ViewMessages({ room }) {
   const [messages, setMessages] = useState([])
   const [isLoadMore, setIsLoadMore] = useState(false)
-  const pageRef = useRef({ currentPage: 0, maxPage: 1, scrollTop: 0 })
+  const pageRef = useRef({
+    currentPage: 0,
+    maxPage: 1,
+    scrollTop: 0,
+    isHaveNewMessageNotRead: false,
+  })
   const chatRef = useRef()
   const currentUserId = useSelector(selectCurrentUser)?._id
-  const { newMessage } = useContext(ChatContext)
+  const { newMessage, sendOnSeenMessageToServer, handleClearNewMessage } =
+    useContext(ChatContext)
 
+  const checkIsMessageNotRead = (message) => {
+    if (
+      getIsNewMessage(message, currentUserId) &&
+      pageRef.current.currentPage === 0
+    ) {
+      pageRef.current.isHaveNewMessageNotRead = true
+    }
+  }
   const getMessages = async () => {
     const limit = 30
     const { data, total } = await feathersClient.service('messages').find({
@@ -41,6 +55,7 @@ function ViewMessages({ room }) {
         }
         return item
       })
+      checkIsMessageNotRead(data[0])
       setMessages((old) => dataFormat.concat(old))
       setIsLoadMore(false)
     } else {
@@ -66,6 +81,14 @@ function ViewMessages({ room }) {
       chatRef.current.addEventListener('scroll', handleScroll)
     }
 
+    // if (room._id && currentUserId) {
+    //   sendOnSeenMessageToServer(room, new Date())
+    // }
+    console.log(
+      'isHaveNewMessageNotRead: ',
+      pageRef.current.isHaveNewMessageNotRead
+    )
+
     return () => {
       chatRef.current &&
         chatRef.current.removeEventListener('scroll', handleScroll)
@@ -76,6 +99,7 @@ function ViewMessages({ room }) {
     // check have new message, add to list
     if (newMessage && newMessage.at_room === room._id) {
       setMessages((oldMess) => [...oldMess, newMessage])
+      handleClearNewMessage()
     }
   }, [newMessage])
 

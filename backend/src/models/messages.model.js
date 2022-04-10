@@ -11,6 +11,7 @@ module.exports = function (app) {
       content: { type: String, required: true },
       at_room: { type: Schema.Types.ObjectId, required: true },
       sender: { type: Schema.Types.ObjectId, required: true, ref: 'users' },
+      seen_by: [{ type: Schema.Types.ObjectId, ref: 'users' }],
     },
     {
       timestamps: true,

@@ -1,7 +1,11 @@
-import { formatDateTimeRecent, getNameAndAvatarRoom } from '@ultils'
+import {
+  formatDateTimeRecent,
+  getNameAndAvatarRoom,
+  getIsNewMessage,
+} from '@ultils'
 import { Avatar, Badge, Card, Col, Row, Space, Typography } from 'antd'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 
 const { Title, Paragraph, Text } = Typography
 function RecentMessageItem({
@@ -10,10 +14,13 @@ function RecentMessageItem({
   onClickItem,
   ...room
 }) {
-  const isNew = false
+  const [isNew, setIsNew] = useState(
+    getIsNewMessage(newestMessage, currentUserId)
+  )
   const { name, avatar } = getNameAndAvatarRoom(room, currentUserId)
 
   const handleClick = () => {
+    setIsNew(false)
     onClickItem(room._id)
   }
   return (
@@ -48,7 +55,7 @@ function RecentMessageItem({
           </Space>
         </Col>
 
-        <Col span={4}>
+        <Col span={5} className="px-2">
           <Space direction="vertical" align="center">
             <Text>{formatDateTimeRecent(newestMessage.createdAt)}</Text>
             {isNew && <Badge dot />}

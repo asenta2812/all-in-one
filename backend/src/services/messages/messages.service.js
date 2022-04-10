@@ -6,7 +6,8 @@ const hooks = require('./messages.hooks');
 module.exports = function (app) {
   const options = {
     Model: createModel(app),
-    paginate: app.get('paginate')
+    paginate: app.get('paginate'),
+    whitelist: ['$exists', '$nin', '$or'],
   };
 
   // Initialize our service with any options it requires

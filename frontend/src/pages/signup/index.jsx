@@ -85,7 +85,7 @@ function SignUpPage() {
   return (
     <Container contentstyle={{ marginTop: '4%' }} background="dark">
       <Row className="my-row-center">
-        <Col xl={8} lg={14} sm={14} xs={22}>
+        <Col xl={6} lg={14} sm={14} xs={22}>
           <Card className="my-card-center my-text-center">
             <Typography.Title level={2}>Sign Up</Typography.Title>
             <Form

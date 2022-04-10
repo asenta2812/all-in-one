@@ -45,6 +45,33 @@ function useSocketIO() {
         }
       )
   }
+
+  const sendOnSeenMessageToServer = (room, seenAt, callback) => {
+    const participantIds = room.participants.map((i) => i.user)
+    refSocket.current &&
+      refSocket.current.emit(
+        'sendSeenMessage',
+        room?._id,
+        participantIds,
+        seenAt,
+        ({ error }) => {
+          if (error) {
+            ErrorAlert(error.message)
+          }
+          if (typeof callback === 'function') {
+            callback()
+          }
+        }
+      )
+  }
+  const listenOnScreenMessageFromServer = (callback) => {
+    refSocket.current &&
+      refSocket.current.on('listenSeenMessage', (obj) => {
+        if (typeof callback === 'function') {
+          callback(obj)
+        }
+      })
+  }
   const receiveMessageFromServer = (callback) => {
     refSocket.current &&
       refSocket.current.on('messageToClient', ({ message }) => {
@@ -61,6 +88,8 @@ function useSocketIO() {
     sendMessageToServer,
     receiveMessageFromServer,
     socketOffEvent,
+    sendOnSeenMessageToServer,
+    listenOnScreenMessageFromServer,
   }
 }
 

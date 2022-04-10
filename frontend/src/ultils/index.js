@@ -46,3 +46,8 @@ export const formatDateTimeRecent = (dateStr) => {
 
   return moment(dateStr).format('DD/MM/YY')
 }
+
+export const getIsNewMessage = ({ seen_by: seenBy, sender }, currentUserId) => {
+  // is new if not sender is me and seendBy not have me
+  return sender !== currentUserId && !seenBy?.includes(currentUserId)
+}

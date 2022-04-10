@@ -47,6 +47,34 @@ module.exports = function (app) {
         return callback({ error });
       }
     });
+    socket.on(
+      'sendSeenMessage',
+      async (roomId, participantIds, seenAt, callback) => {
+        const { messages: messageSchema } = app.get('mongooseClient').models;
+        try {
+          io.to(participantIds.map((i) => socketIdWithUserId[i])).emit(
+            'listenSeenMessage',
+            {
+              at_room: roomId,
+              seenAt,
+              seen_by: socket.decoded.sub.toString(),
+            }
+          );
+          await messageSchema.update(
+            {
+              at_room: roomId,
+              createdAt: { $lt: seenAt },
+              sender: { $ne: socket.decoded.sub },
+              seen_by: { $nin: [socket.decoded.sub] },
+            },
+            { $push: { seen_by: socket.decoded.sub } }
+          );
+        } catch (error) {
+          console.log({ error });
+          return callback({ error });
+        }
+      }
+    );
 
     socket.on('disconnect', () => {
       socketIdWithUserId[socket.decoded.sub.toString()] = null;

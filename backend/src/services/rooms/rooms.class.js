@@ -13,7 +13,7 @@ exports.Rooms = class Rooms extends Service {
       )
         .populate({
           path: 'newestMessage',
-          select: ['at_room', 'content', 'createdAt', 'sender'],
+          select: ['at_room', 'content', 'createdAt', 'sender', 'seen_by'],
         })
         .sort({ updatedAt: -1 });
     }
