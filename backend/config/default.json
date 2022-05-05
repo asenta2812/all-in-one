@@ -32,5 +32,5 @@
   "mongodb": "mongodb+srv://asenta:qM9ZAnX4vuHZO3ZT@uat.pkeoi.mongodb.net/uat?retryWrites=true&w=majority",
   "base": "api/v1",
   "socketPort": 3032,
-  "frontEndUrl": "https://all-in-one-nine.vercel.app/"
+  "frontEndUrl": "http://localhost:3000"
 }
