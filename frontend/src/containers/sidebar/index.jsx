@@ -5,6 +5,7 @@ function SideBar() {
   const [width, setWidth] = useState('100%')
   const colRef = useRef()
   const cursorRef = useRef()
+  console.log('re-render sidebar')
   return (
     <div
       ref={colRef}

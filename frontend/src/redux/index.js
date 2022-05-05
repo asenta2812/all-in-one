@@ -12,14 +12,22 @@ import {
 
 import authReducers from './auth'
 import chatReducers from './chat'
+
+const chatPersistConfig = {
+  key: 'chat',
+  storage,
+  blacklist: ['call'],
+}
+
 const rootReducers = combineReducers({
   auth: authReducers,
-  chat: chatReducers,
+  chat: persistReducer(chatPersistConfig, chatReducers),
 })
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'chat'],
+  whitelist: ['auth'],
+  blacklist: ['chat'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducers)

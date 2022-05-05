@@ -5,7 +5,7 @@ import rest from '@feathersjs/rest-client'
 import axios from 'axios'
 import { signOutUserAction } from '@redux/auth'
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL
+const backendUrl = process.env.REACT_APP_BACKEND_URL
 const restClient = rest(backendUrl)
 const feathersClient = feathers()
 

@@ -2,12 +2,13 @@ import feathersClient from '@client'
 import Message from '@components/message'
 import ChatContext from '@contexts/chat'
 import { selectCurrentUser } from '@redux/auth'
-import { Empty } from 'antd'
+import { Empty, Spin } from 'antd'
 import PropTypes from 'prop-types'
 import React, {
   useContext,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
@@ -16,27 +17,36 @@ import { getIsNewMessage } from '@ultils'
 function ViewMessages({ room }) {
   const [messages, setMessages] = useState([])
   const [isLoadMore, setIsLoadMore] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const pageRef = useRef({
     currentPage: 0,
     maxPage: 1,
     scrollTop: 0,
-    isHaveNewMessageNotRead: false,
   })
   const chatRef = useRef()
   const currentUserId = useSelector(selectCurrentUser)?._id
-  const { newMessage, sendOnSeenMessageToServer, handleClearNewMessage } =
-    useContext(ChatContext)
+  const {
+    newMessage,
+    sendOnSeenMessageToServer,
+    handleClearNewMessage,
+    roomSeenMessage,
+  } = useContext(ChatContext)
 
   const checkIsMessageNotRead = (message) => {
     if (
       getIsNewMessage(message, currentUserId) &&
       pageRef.current.currentPage === 0
     ) {
-      pageRef.current.isHaveNewMessageNotRead = true
+      sendOnSeenMessageToServer(room)
     }
   }
   const getMessages = async () => {
     const limit = 30
+    if (isLoadMore) {
+      return
+    }
+
+    setIsLoading(true)
     const { data, total } = await feathersClient.service('messages').find({
       query: {
         at_room: room._id,
@@ -48,6 +58,7 @@ function ViewMessages({ room }) {
       },
     })
     pageRef.current.maxPage = Math.ceil(total / limit)
+    setIsLoading(false)
     if (data.length > 0) {
       const dataFormat = data.reverse().map((item) => {
         if (item.sender === currentUserId) {
@@ -55,7 +66,7 @@ function ViewMessages({ room }) {
         }
         return item
       })
-      checkIsMessageNotRead(data[0])
+      checkIsMessageNotRead(data[data.length - 1])
       setMessages((old) => dataFormat.concat(old))
       setIsLoadMore(false)
     } else {
@@ -63,7 +74,7 @@ function ViewMessages({ room }) {
     }
   }
 
-  const handleScroll = (e) => {
+  const handleScroll = () => {
     if (
       chatRef.current.scrollTop < 20 &&
       !isLoadMore &&
@@ -81,17 +92,11 @@ function ViewMessages({ room }) {
       chatRef.current.addEventListener('scroll', handleScroll)
     }
 
-    // if (room._id && currentUserId) {
-    //   sendOnSeenMessageToServer(room, new Date())
-    // }
-    console.log(
-      'isHaveNewMessageNotRead: ',
-      pageRef.current.isHaveNewMessageNotRead
-    )
-
     return () => {
       chatRef.current &&
         chatRef.current.removeEventListener('scroll', handleScroll)
+      // remove message when unmout
+      setMessages([])
     }
   }, [])
 
@@ -99,6 +104,9 @@ function ViewMessages({ room }) {
     // check have new message, add to list
     if (newMessage && newMessage.at_room === room._id) {
       setMessages((oldMess) => [...oldMess, newMessage])
+      if (getIsNewMessage(newMessage, currentUserId)) {
+        sendOnSeenMessageToServer(room)
+      }
       handleClearNewMessage()
     }
   }, [newMessage])
@@ -123,22 +131,42 @@ function ViewMessages({ room }) {
     }
   }, [messages])
 
-  if (!messages) {
-    return (
-      <div className="flex justify-center items-center">
-        <Empty description="You don't have any messages" />
-      </div>
-    )
-  }
+  const renderMessages = useMemo(() => {
+    if (messages.length === 0) return
+    return messages.map((mess) => {
+      // TODO : làm cho 1 list user seen như message FB
 
-  const renderMessages = () => {
-    return messages.map((mess, index) => <Message key={index} {...mess} />)
-  }
+      let isSeen = false
+      if (roomSeenMessage && roomSeenMessage.at_room === room._id) {
+        isSeen = new Date(mess.createdAt) <= new Date(roomSeenMessage.seenAt)
+      } else {
+        isSeen = mess.seen_by && mess.seen_by.length > 0
+      }
+      return (
+        <Message
+          {...mess}
+          key={mess._id}
+          isSeen={isSeen}
+          keyMessage={mess.key}
+        />
+      )
+    })
+  }, [messages, roomSeenMessage])
 
   return (
-    <div ref={chatRef} className="overflow-y-auto h-full">
+    <div ref={chatRef} className="overflow-y-auto h-full animate-fadein">
       <div className="flex flex-col flex-1 justify-end p-4">
-        {renderMessages()}
+        {isLoading ? (
+          <div className="flex justify-center items-center">
+            <Spin />
+          </div>
+        ) : messages && messages.length > 0 ? (
+          renderMessages
+        ) : (
+          <div className="flex justify-center items-center">
+            <Empty description="You don't have any messages" />
+          </div>
+        )}
       </div>
     </div>
   )

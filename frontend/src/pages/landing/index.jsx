@@ -1,11 +1,9 @@
 import Container from '@containers'
-import { Card, Col, Row, Typography } from 'antd'
+import { Card, Col, Row } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const { Text } = Typography
-
-function LandingPage(props) {
+function LandingPage() {
   return (
     <Container>
       <Row className="my-row-center">

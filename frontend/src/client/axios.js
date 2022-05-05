@@ -4,7 +4,7 @@ import { ErrorAlert } from '@components/alerts'
 import { signOutUserAction } from '@redux/auth'
 // create default settings axios
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL,
+  baseURL: process.env.REACT_APP_BACKEND_URL,
   headers: {
     'Access-Control-Allow-Origin': '*',
   },

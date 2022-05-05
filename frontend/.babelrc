@@ -1,0 +1,21 @@
+{
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@": "./src",
+          "@assets": "./src/assets",
+          "@pages": "./src/pages",
+          "@containers": "./src/containers",
+          "@components": "./src/components",
+          "@redux": "./src/redux",
+          "@client": "./src/client",
+          "@ultils": "./src/ultils",
+          "@contexts": "./src/contexts",
+          "@hooks": "./src/hooks"
+        }
+      }
+    ]
+  ]
+}

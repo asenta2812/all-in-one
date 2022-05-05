@@ -60,7 +60,7 @@ module.exports = function (app) {
               seen_by: socket.decoded.sub.toString(),
             }
           );
-          await messageSchema.update(
+          await messageSchema.updateMany(
             {
               at_room: roomId,
               createdAt: { $lt: seenAt },
@@ -76,6 +76,22 @@ module.exports = function (app) {
       }
     );
 
+    // for call
+    socket.on('callUser', (data) => {
+      data.toIds.forEach((user) => {
+        io.to(socketIdWithUserId[user]).emit('callUser', {
+          signal: data.signalData,
+          ...data,
+        });
+      });
+    });
+
+    socket.on('answerCall', (data) => {
+      io.to(socketIdWithUserId[data.toInitiator]).emit(
+        'callAccepted',
+        data.signal
+      );
+    });
     socket.on('disconnect', () => {
       socketIdWithUserId[socket.decoded.sub.toString()] = null;
     });

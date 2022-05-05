@@ -20,3 +20,10 @@ export const selectCurrentRoom = createSelector(
     if (room !== null) return room
   }
 )
+
+export const selectCurrentCall = createSelector(
+  (state) => state.chat.call,
+  (call) => {
+    if (call !== null) return call
+  }
+)

@@ -1,20 +1,23 @@
+import CallModal from '@components/call-modal'
 import UserDropDown from '@components/user-dropdown'
 import Container from '@containers'
 import ChatScreen from '@containers/chat-screen'
 import SideBar from '@containers/sidebar'
 import { ChatProvider } from '@contexts/chat'
 import useSocketIO from '@hooks/use-socket-io'
+import { selectCurrentUser } from '@redux/auth'
 import { Col, Row } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { selectCurrentUser } from '../../redux/auth'
+
 function ChatPage() {
   const {
     sendMessageToServer,
     receiveMessageFromServer,
     socketOffEvent,
     sendOnSeenMessageToServer,
-    listenOnScreenMessageFromServer,
+    listenOnSeenMessageFromServer,
+    socket,
   } = useSocketIO()
   const [newMessage, setNewMessage] = useState()
 
@@ -24,15 +27,14 @@ function ChatPage() {
 
   useEffect(() => {
     receiveMessageFromServer((newMess) => {
-      console.log('🚀 -> receiveMessageFromServer -> newMess', newMess)
       if (newMess.sender === currentUserId) {
         newMess.isMe = true
       }
       setNewMessage(newMess)
     })
 
-    listenOnScreenMessageFromServer((res) => {
-      console.log('🚀 -> listenOnScreenMessageFromServer -> res', res)
+    listenOnSeenMessageFromServer((res) => {
+      setRoomSeenMessage(res)
     })
     return () => {
       socketOffEvent()
@@ -49,6 +51,7 @@ function ChatPage() {
         newMessage,
         sendOnSeenMessageToServer,
         handleClearNewMessage,
+        roomSeenMessage,
       }}
     >
       <Container>
@@ -72,6 +75,7 @@ function ChatPage() {
           {/* end info */}
         </Row>
         <UserDropDown position="bottom-left" />
+        {socket && <CallModal socket={socket} />}
       </Container>
     </ChatProvider>
   )

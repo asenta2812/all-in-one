@@ -28,6 +28,7 @@ app.configure(configuration());
 app.use(
   helmet({
     contentSecurityPolicy: false,
+    crossOriginResourcePolicy: false,
   })
 );
 app.use(cors());

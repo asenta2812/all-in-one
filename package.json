@@ -4,13 +4,14 @@
   "version": "0.0.0",
   "scripts": {
     "dev:backend": "yarn --cwd backend dev",
-    "dev:frontend": "wait-on http://localhost:3030/ && yarn --cwd frontend dev",
-    "dev": "cross-env FORCE_COLOR=1 npm-run-all -l -p dev:*"
+    "dev:frontend": "wait-on http://localhost:3030/ && yarn --cwd frontend start",
+    "dev": "cross-env FORCE_COLOR=1 npm-run-all -l -p dev:*",
+    "postinstall": "(cd backend && npm install); (cd frontend && npm install)"
   },
   "devDependencies": {
+    "cross-env": "7.0.3",
     "npm-run-all": "4.1.5",
-    "wait-on": "5.2.1",
-    "cross-env": "7.0.3"
+    "wait-on": "5.2.1"
   },
   "dependencies": {}
 }

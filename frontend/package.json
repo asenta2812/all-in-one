@@ -1,32 +1,59 @@
 {
-  "name": "frontend",
+  "name": "front-end",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
   "dependencies": {
-    "@feathersjs/authentication-client": "^4.5.13",
-    "@feathersjs/client": "^4.5.13",
-    "@feathersjs/rest-client": "^4.5.12",
-    "@feathersjs/socketio-client": "github:feathersjs/rest-client",
-    "@reduxjs/toolkit": "^1.8.0",
-    "antd": "^4.19.3",
-    "axios": "^0.26.1",
+    "@feathersjs/authentication-client": "^5.0.0-pre.20",
+    "@feathersjs/client": "^5.0.0-pre.20",
+    "@giphy/js-fetch-api": "^4.1.2",
+    "@giphy/react-components": "^5.7.0",
+    "@reduxjs/toolkit": "^1.8.1",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^13.5.0",
+    "antd": "^4.20.2",
+    "axios": "^0.27.2",
     "classnames": "^2.3.1",
-    "moment": "^2.29.2",
+    "moment": "^2.29.3",
     "prop-types": "^15.8.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-redux": "^7.2.6",
-    "react-router-dom": "^6.2.2",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-redux": "^8.0.1",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
     "redux-persist": "^6.0.0",
-    "socket.io-client": "^4.4.1"
+    "simple-peer": "^9.11.1",
+    "socket.io-client": "^4.5.0",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^1.0.7",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.2.1",
     "autoprefixer": "^10.4.4",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
@@ -37,7 +64,6 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "postcss": "^8.4.12",
     "prettier": "^2.2.1",
-    "tailwindcss": "^3.0.23",
-    "vite": "^2.8.0"
+    "tailwindcss": "^3.0.23"
   }
 }

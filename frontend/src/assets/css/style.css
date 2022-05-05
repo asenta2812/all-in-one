@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+body,
+html {
+  overflow: hidden;
+}
+
 .my-layout {
   height: 100vh;
   overflow: hidden;
@@ -69,4 +74,76 @@
 .avatar-uploader > .ant-upload {
   width: 128px;
   height: 128px;
+}
+.tabs-emoji .ant-tabs-content-holder {
+  height: 100%;
+}
+
+.tabs-emoji .ant-tabs-content.ant-tabs-content-bottom {
+  height: inherit;
+  padding: 10px;
+  padding-right: 0;
+}
+.tabs-emoji .ant-tabs-tabpane {
+  overflow-y: hidden;
+}
+.tabs-emoji.ant-tabs-bottom > .ant-tabs-nav {
+  margin-top: 10px !important;
+}
+.popover-emoji .ant-popover-inner-content {
+  padding: 0;
+}
+.ant-typography-expand {
+  color: inherit !important;
+}
+.giphy-gif {
+  max-width: 400px;
+  height: 100%;
+}
+.my-select {
+  width: 100%;
+}
+.my-select .ant-select-selector {
+  border-radius: inherit !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+.my-select .ant-select-selection-search {
+  left: 20px !important;
+  right: 20px !important;
+}
+.my-select .ant-select-clear {
+  right: 20px !important;
+}
+.my-select .anticon.anticon-close-circle {
+  vertical-align: 0 !important;
+}
+.my-fadein-enter {
+  opacity: 0;
+}
+.my-fadein-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.my-fadein-exit {
+  opacity: 1;
+}
+.my-fadein-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.item-enter {
+  opacity: 0;
+}
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.item-exit {
+  opacity: 1;
+}
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
 }

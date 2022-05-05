@@ -8,10 +8,12 @@ module.exports = function (app) {
   const { Schema } = mongooseClient;
   const schema = new Schema(
     {
-      content: { type: String, required: true },
+      content: String,
       at_room: { type: Schema.Types.ObjectId, required: true },
       sender: { type: Schema.Types.ObjectId, required: true, ref: 'users' },
       seen_by: [{ type: Schema.Types.ObjectId, ref: 'users' }],
+      type: String,
+      key: String,
     },
     {
       timestamps: true,

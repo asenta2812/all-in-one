@@ -8,8 +8,9 @@ import { Affix, Avatar, Button, Popover } from 'antd'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { signOutUserAction } from '../../redux/auth'
-import { getFullLinkImage } from '../../ultils'
+import { signOutUserAction } from '@redux/auth'
+import { resetStateChat } from '@redux/chat'
+import { getFullLinkImage } from '@ultils'
 
 function UserDropDown({ position = 'bottom-right' }) {
   const dispatch = useDispatch()
@@ -27,6 +28,7 @@ function UserDropDown({ position = 'bottom-right' }) {
   const user = useSelector(selectCurrentUser)
   const handleSignOut = () => {
     dispatch(signOutUserAction())
+    dispatch(resetStateChat())
   }
   const renderContent = () => {
     return (

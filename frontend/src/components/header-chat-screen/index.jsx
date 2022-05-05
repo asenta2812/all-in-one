@@ -3,17 +3,41 @@ import {
   PhoneOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons'
+import AvatarStatus from '@components/avatar-status'
 import { selectCurrentUser } from '@redux/auth'
+import { callAction } from '@redux/chat'
 import { getNameAndAvatarRoom } from '@ultils'
-import { Avatar, Button, Col, Row, Space, Typography } from 'antd'
+import { Button, Col, Row, Space, Typography } from 'antd'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 const { Title, Paragraph } = Typography
 
 function HeaderChatScreen({ room }) {
   const [roomData, setRoomData] = useState({ avatar: '', roomName: '' })
-  const currentUserId = useSelector(selectCurrentUser)?._id
+  const currentUser = useSelector(selectCurrentUser)
+  const currentUserId = currentUser?._id
+  const dispatch = useDispatch()
+  const handleClickVideo = () => {
+    dispatch(
+      callAction({
+        to: getNameAndAvatarRoom(room, currentUserId),
+        video: true,
+        from: currentUser,
+        in: room,
+      })
+    )
+  }
+  const handleClickAudio = () => {
+    dispatch(
+      callAction({
+        to: getNameAndAvatarRoom(room, currentUserId),
+        video: false,
+        from: currentUser,
+        in: room,
+      })
+    )
+  }
   // TODO: last online
   useEffect(() => {
     if (room.name && room.avatar) {
@@ -31,14 +55,14 @@ function HeaderChatScreen({ room }) {
       align="middle"
       justify="space-between"
       wrap={false}
-      className="border-b-[1px] p-2 pl-4"
+      className="border-b-[1px] p-2 pl-4 animate-fadein"
     >
       <Col className="mr-4">
-        <Avatar
+        <AvatarStatus
           alt={roomData.roomName}
-          shape="circle"
           size="large"
           src={roomData.avatar}
+          online
         />
       </Col>
       <Col flex={1}>
@@ -58,19 +82,21 @@ function HeaderChatScreen({ room }) {
             type="text"
             size="large"
             icon={<PhoneOutlined />}
-          ></Button>
+            onClick={handleClickAudio}
+          />
           <Button
             shape="circle"
             type="text"
             size="large"
             icon={<VideoCameraOutlined />}
-          ></Button>
+            onClick={handleClickVideo}
+          />
           <Button
             shape="circle"
             type="text"
             size="large"
             icon={<EllipsisOutlined />}
-          ></Button>
+          />
         </Space>
       </Col>
     </Row>

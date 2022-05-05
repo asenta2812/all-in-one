@@ -1,11 +1,12 @@
 import feathersClient from '@client'
 import RecentMessageItem from '@components/recent-message-item'
-import { Space } from 'antd'
-import React, { useContext, useEffect, useState } from 'react'
 import ChatContext from '@contexts/chat'
-import { useDispatch, useSelector } from 'react-redux'
 import { selectCurrentUser } from '@redux/auth'
-import { selectRoomAction, selectCurrentRoom } from '@redux/chat'
+import { selectCurrentRoom, selectRoomAction } from '@redux/chat'
+import { Space } from 'antd'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
 function RecentMessages() {
   const [recentMessages, setRecentMessages] = useState()
   const { newMessage, handleClearNewMessage } = useContext(ChatContext)
@@ -17,7 +18,9 @@ function RecentMessages() {
     if (roomId === newMessage?.at_room) {
       handleClearNewMessage()
     }
-    if (roomId !== currentRoomId) dispatch(selectRoomAction({ roomId }))
+    if (roomId !== currentRoomId) {
+      dispatch(selectRoomAction({ roomId }))
+    }
   }
   const getRecentMessages = async () => {
     const messages = await feathersClient.service('rooms').find({
@@ -47,7 +50,8 @@ function RecentMessages() {
       }
     }
   }, [newMessage])
-  const renderContacts = () => {
+
+  const renderRecentMessages = useMemo(() => {
     if (!recentMessages) {
       return null
     }
@@ -57,13 +61,14 @@ function RecentMessages() {
         {...item}
         currentUserId={currentUserId}
         onClickItem={handleClickItem}
+        isActive={item._id === currentRoomId}
       />
     ))
-  }
+  }, [recentMessages, currentRoomId])
 
   return (
-    <Space direction="vertical" className="w-full">
-      {renderContacts()}
+    <Space direction="vertical" className="w-full p-2">
+      {renderRecentMessages}
     </Space>
   )
 }
