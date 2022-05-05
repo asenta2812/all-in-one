@@ -31,7 +31,7 @@ app.use(
     crossOriginResourcePolicy: false,
   })
 );
-app.use(cors());
+app.use(cors({ origin: app.get('frontEndUrl'), credentials: true }));
 app.use(compress());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
