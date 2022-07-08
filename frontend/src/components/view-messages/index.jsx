@@ -30,6 +30,7 @@ function ViewMessages({ room }) {
     sendOnSeenMessageToServer,
     handleClearNewMessage,
     roomSeenMessage,
+    setTestState,
   } = useContext(ChatContext)
 
   const checkIsMessageNotRead = (message) => {
@@ -148,6 +149,7 @@ function ViewMessages({ room }) {
           key={mess._id}
           isSeen={isSeen}
           keyMessage={mess.key}
+          on
         />
       )
     })

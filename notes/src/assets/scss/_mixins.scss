@@ -1,0 +1,76 @@
+@import './colors';
+@import './values';
+
+@mixin getBackground() {
+  &:global(.white) {
+    background-color: $white;
+  }
+  &:global(.pink) {
+    background-color: $pink;
+  }
+  &:global(.orange) {
+    background-color: $orange;
+  }
+  &:global(.green) {
+    background-color: $green;
+  }
+  &:global(.purple) {
+    background-color: $purple;
+  }
+  &:global(.brown) {
+    background-color: $brown;
+  }
+  &:global(.gray) {
+    background-color: $gray;
+  }
+  &:global(.greenery) {
+    background-color: #00b09b;
+    background-image: linear-gradient(to bottom right, #96c93d, #00b09b);
+  }
+  &:global(.sublime-vivid) {
+    background-color: #fc466b;
+    background-image: linear-gradient(to bottom right, #3f5efb, #fc466b);
+  }
+  &:global(.dimigo) {
+    background-color: #ff0f7b;
+    background-image: linear-gradient(to bottom right, #ff0f7b, #f89c2a);
+  }
+  &:global(.reef) {
+    background-color: #00d2ff;
+    background-image: linear-gradient(to bottom right, #2f80ed, #56ccf2);
+  }
+  &:global(.light-purple) {
+    background-color: #4568dc;
+    background-image: linear-gradient(90deg, #b06ab3, #4568dc);
+  }
+  &:global(.witching-hour) {
+    background-color: #c31432;
+    background-image: linear-gradient(to bottom right, #240b36, #c31432);
+  }
+  &:global(.titanium) {
+    background-color: #283048;
+    background-image: linear-gradient(to bottom right, #859398, #283048);
+  }
+}
+@mixin button($alpha: 0.4) {
+  background: transparent;
+  color: $black-10;
+  font-weight: 600;
+  border-radius: $border-radius;
+  box-shadow: 0px 5px 10px 0px rgba($black-10, $alpha);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  transition: all 0.3s linear;
+  &:hover,
+  &:focus {
+    border-color: transparent;
+    color: inherit;
+    transform: translateY(-5px);
+  }
+  & div {
+    margin-right: 10px;
+  }
+}

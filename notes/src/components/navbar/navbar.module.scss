@@ -1,0 +1,27 @@
+@import '../../assets/scss/colors';
+
+.sider {
+  background: transparent;
+}
+.icon {
+  font-size: 40px !important;
+  color: $black-10;
+}
+
+.button {
+  width: auto !important;
+  height: auto !important;
+  padding: 15px !important;
+  background-color: transparent;
+  transition: all 0.3s linear;
+
+  &:hover {
+    background-color: rgba($black-1, 0.5);
+    transform: scale(1.1, 1.1);
+  }
+
+  &.buttonActive {
+    box-shadow: 0px 5px 10px 0px rgba($black-1, 1);
+    transform: translateX(20%);
+  }
+}

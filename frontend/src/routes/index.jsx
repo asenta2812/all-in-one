@@ -7,6 +7,7 @@ import ProtectedRoute from './protectedRoute'
 import PublicRoute from './publicRoute'
 import Chat from '@pages/chat'
 import NotFound from '@pages/not-found'
+import MusicApp from '@pages/music'
 
 // import { NotFound } from "@layouts";
 const AppRoutes = () => (
@@ -18,6 +19,7 @@ const AppRoutes = () => (
     </Route>
     <Route element={<ProtectedRoute />}>
       <Route path="/chat" element={<Chat />} />
+      <Route path="/music" element={<MusicApp />} />
     </Route>
     {/* <ProtectedRoute exact path="/home" component={(props) => <Home {...props} />} />  */}
 

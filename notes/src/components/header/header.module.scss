@@ -1,0 +1,14 @@
+@import '../../assets/scss/colors';
+@import '../../assets/scss/mixins';
+
+.header {
+  background: transparent;
+  height: 100px;
+
+  & > div {
+    height: 100% !important;
+  }
+  & button {
+    @include button(0.2);
+  }
+}
